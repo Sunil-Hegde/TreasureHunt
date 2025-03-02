@@ -15,13 +15,13 @@ export class GameScene extends Phaser.Scene {
     this.isPlayerInCafe = false;
     this.isPlayerInBank = false;
     this.timerText = null;
-    this.timeRemaining = 600; // 10 minutes countdown
+    this.timeRemaining = 600;
     this.score = 0;
     this.scoreText = null;
     this.homeCompleted = false;
-    this.avoidedPublicWifi = true; // Will be set to false if they connect to public WiFi
-    this.cafeWiFiAttempted = false; // Track if they've attempted to use public WiFi
-    this.cafePointsAwarded = false; // Track if points have already been awarded from cafe
+    this.avoidedPublicWifi = true;
+    this.cafeWiFiAttempted = false;
+    this.cafePointsAwarded = false;
 
     this.lastPosition = {
       x: 0,
@@ -37,18 +37,15 @@ export class GameScene extends Phaser.Scene {
     this.isPlayerInBank = false;
 
     if (data && data.fromCafe) {
-      // Handle cafe return data
       console.log(
         "Returned from cafe, wifi attempted:",
         data.cafeWiFiAttempted
       );
 
-      // Track WiFi attempt status for future reference
       if (data.cafeWiFiAttempted) {
         this.cafeWiFiAttempted = true;
         this.avoidedPublicWifi = false;
 
-        // Show warning notification after a short delay
         this.time.delayedCall(300, () => {
           this.showPointsNotification(
             "Warning! Public WiFi risks your data security"
@@ -56,7 +53,6 @@ export class GameScene extends Phaser.Scene {
         });
       }
 
-      // Award points only if they paid with cash, avoided WiFi, and haven't received points yet
       if (
         data.cafeCashPayment &&
         !data.cafeWiFiAttempted &&
@@ -65,7 +61,6 @@ export class GameScene extends Phaser.Scene {
         this.cafePointsAwarded = true;
         this.updateScore(100);
 
-        // Show notification after a short delay to ensure scene is ready
         this.time.delayedCall(300, () => {
           this.showPointsNotification(
             "Smart choice! +100 points for avoiding public WiFi"
@@ -251,7 +246,6 @@ export class GameScene extends Phaser.Scene {
 
   enterCafe(player, zone) {
     if (!this.isPlayerInHouse && !this.isPlayerInCafe && !this.isPlayerInBank) {
-      // Check if player has attempted to use WiFi previously
       if (this.cafeWiFiAttempted) {
         this.positionPopup(750, 450, false, true);
         this.popupText.setText(
@@ -302,7 +296,6 @@ export class GameScene extends Phaser.Scene {
 
       this.positionPopup(950, 250);
 
-      // Update text to prompt for ENTER key, similar to cafe
       this.popupText.setText(
         "Welcome to your house!\nPress ENTER to go inside or ESC to leave."
       );
@@ -312,15 +305,12 @@ export class GameScene extends Phaser.Scene {
         this.enterKey.removeAllListeners();
       }
 
-      // Set up ENTER key handler to transition to home scene
       this.enterKey.on("down", this.handleHomeEnter, this);
     }
   }
 
-  // Add a new method to handle home entry with ENTER key
   handleHomeEnter() {
     if (this.isPlayerInHouse) {
-      // Redirect to external site instead of trying to load the HomeScene
       window.location.href = "https://secure-code-x-home.vercel.app/";
     }
   }
@@ -355,12 +345,10 @@ export class GameScene extends Phaser.Scene {
         this.homeZone.y + this.homeZone.height
       );
 
-      // Add points for completing home tasks if not already awarded
       if (!this.homeCompleted) {
         this.homeCompleted = true;
         this.updateScore(100);
 
-        // Show a popup notification for earning points
         this.showPointsNotification("Home tasks completed! +100 points");
       }
     } else if (this.isPlayerInCafe) {
@@ -596,7 +584,6 @@ export class GameScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    // Always use regular text as fallback - don't rely on bitmap font
     this.scoreText = this.add
       .text(this.cameras.main.width - 350, 50, this.score.toString(), {
         fontFamily: "Arial",

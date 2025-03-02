@@ -6,19 +6,16 @@ export class StartScene extends Phaser.Scene {
   }
 
   preload() {
-    // Optional: Load a background image for the start screen
     this.load.image("start-bg", "assets/first-bg.jpg");
   }
 
   create() {
-    // Add background
     const bg = this.add
       .image(0, 0, "start-bg")
       .setOrigin(0, 0)
       .setDisplaySize(this.cameras.main.width, this.cameras.main.height)
-      .setAlpha(0.7); // Slightly transparent
+      .setAlpha(0.7);
 
-    // Create a dark overlay
     this.add
       .rectangle(
         0,
@@ -30,7 +27,6 @@ export class StartScene extends Phaser.Scene {
       )
       .setOrigin(0, 0);
 
-    // Game title
     this.add
       .text(
         this.cameras.main.width / 2,
@@ -39,7 +35,7 @@ export class StartScene extends Phaser.Scene {
         {
           fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
           fontSize: "80px",
-          color: "#FFD700", // Gold color
+          color: "#FFD700",
           fontStyle: "bold",
           stroke: "#000000",
           strokeThickness: 6,
@@ -55,7 +51,6 @@ export class StartScene extends Phaser.Scene {
       )
       .setOrigin(0.5);
 
-    // Game description
     const gameDescription = [
       "Explore the city and find hidden treasures!",
       "Visit the House, Cafe, and Bank to uncover clues.",
@@ -80,7 +75,6 @@ export class StartScene extends Phaser.Scene {
       )
       .setOrigin(0.5);
 
-    // Press enter to start text with blinking effect
     const startText = this.add
       .text(
         this.cameras.main.width / 2,
@@ -95,7 +89,6 @@ export class StartScene extends Phaser.Scene {
       )
       .setOrigin(0.5);
 
-    // Add blinking effect
     this.tweens.add({
       targets: startText,
       alpha: { from: 1, to: 0.3 },
@@ -104,7 +97,6 @@ export class StartScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    // Set up input to start game
     this.input.keyboard.once("keydown-ENTER", () => {
       this.cameras.main.fade(500, 0, 0, 0);
       this.time.delayedCall(500, () => {

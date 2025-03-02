@@ -17,7 +17,7 @@ export class HomeScene extends Phaser.Scene {
     this.passwordPrompted = false;
     this.timer = 0;
     this.timerText = null;
-    this.timeLimit = 600; // 10 minutes in seconds
+    this.timeLimit = 600;
     this.charSize = {
       width: 100,
       height: 100,
@@ -25,7 +25,6 @@ export class HomeScene extends Phaser.Scene {
   }
 
   preload() {
-    // Load all required assets
     this.load.image("bg", "assets/HomePage/bg.jpg");
     this.load.image("player", "assets/HomePage/character.png");
     this.load.image("computer", "assets/HomePage/computer.png");
@@ -37,27 +36,14 @@ export class HomeScene extends Phaser.Scene {
   }
 
   create() {
-    // Add background
     this.add.image(0, 0, "bg").setOrigin(0, 0);
-
-    // Add interactive objects
     this.setupObjects();
-
-    // Add player with physics
     this.setupPlayer();
-
-    // Setup timer
     this.setupTimer();
-
-    // Setup keyboard controls
     this.cursor = this.input.keyboard.createCursorKeys();
-
-    // Add ESC key handler
     this.input.keyboard.on("keydown-ESC", () => {
       this.scene.start("scene-game");
     });
-
-    // Add this in your create() method
     this.load.on("loaderror", function (file) {
       console.error("Error loading asset:", file.src);
     });
