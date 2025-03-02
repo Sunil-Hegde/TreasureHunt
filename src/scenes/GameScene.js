@@ -300,7 +300,7 @@ export class GameScene extends Phaser.Scene {
       this.isPlayerInHouse = true;
       player.setVisible(false);
 
-      this.positionPopup(500, 450);
+      this.positionPopup(950, 250);
 
       // Update text to prompt for ENTER key, similar to cafe
       this.popupText.setText(
@@ -333,7 +333,7 @@ export class GameScene extends Phaser.Scene {
       this.isPlayerInBank = true;
       player.setVisible(false);
 
-      this.positionPopup(1100, 350);
+      this.positionPopup(1650, 700);
       this.popupText.setText("You entered the bank!\nPress ESC to exit.");
       this.popup.setVisible(true);
     }
